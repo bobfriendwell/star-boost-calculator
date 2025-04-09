@@ -1,12 +1,79 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import LoginDialog from "@/components/LoginDialog";
+import RatingCalculator from "@/components/RatingCalculator";
+import { Star } from "lucide-react";
 
 const Index = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+    // Save login state to localStorage to persist across page refreshes
+    localStorage.setItem("isLoggedIn", "true");
+  };
+
+  // Check if user is already logged in
+  useState(() => {
+    const loginStatus = localStorage.getItem("isLoggedIn");
+    if (loginStatus === "true") {
+      setIsLoggedIn(true);
+    }
+  });
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gradient-to-b from-white to-slate-50">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <header className="text-center mb-10">
+          <div className="inline-flex items-center justify-center p-2 bg-brand/10 rounded-full mb-4">
+            <Star className="h-6 w-6 text-brand fill-brand" />
+          </div>
+          
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">五星達標試算器</h1>
+          
+          <p className="text-xl text-muted-foreground mb-4">
+            快速試算你還差幾則五星評論，就能突破理想評分門檻！
+          </p>
+          
+          <div className="max-w-2xl mx-auto">
+            <p className="text-muted-foreground mb-6">
+              「你知道嗎？平均評分從 4.2 提升到 4.5，其實只差幾則五星好評！」<br />
+              用我們的「五星達標試算器」，立即找出需要幾則評論、精準布局顧客關係經營。
+            </p>
+          </div>
+          
+          {!isLoggedIn && (
+            <div className="inline-block bg-brand/5 rounded-lg p-3 mb-8">
+              <Button 
+                variant="outline" 
+                onClick={() => setIsLoginDialogOpen(true)}
+                className="border-brand/20 text-brand hover:bg-brand/10 hover:text-brand-dark"
+              >
+                登入專業版
+              </Button>
+              <p className="text-xs text-muted-foreground mt-2">
+                解鎖更多功能與詳細分析
+              </p>
+            </div>
+          )}
+        </header>
+
+        <main className="max-w-xl mx-auto bg-white rounded-xl shadow-lg border border-slate-100 p-6 md:p-8">
+          <RatingCalculator isLoggedIn={isLoggedIn} />
+        </main>
+
+        <footer className="text-center text-sm text-muted-foreground mt-12">
+          <p>© 2025 White Rock Hospitality Consulting. All rights reserved.</p>
+        </footer>
       </div>
+
+      <LoginDialog 
+        isOpen={isLoginDialogOpen} 
+        onOpenChange={setIsLoginDialogOpen} 
+        onLoginSuccess={handleLoginSuccess}
+      />
     </div>
   );
 };
