@@ -83,28 +83,6 @@ export function RatingCalculator({ isLoggedIn }: RatingCalculatorProps) {
     setShowResult(false);
   };
 
-  const handleShare = () => {
-    if (!reviewCount || !currentRating || !targetRating || requiredReviews === null) {
-      return;
-    }
-
-    const shareText = `現有${reviewCount}則評論，平均${currentRating}顆星，要提升至${targetRating}顆星，還需要${requiredReviews}則五星評論！`;
-    
-    if (navigator.share) {
-      navigator.share({
-        title: '五星達標試算結果',
-        text: shareText,
-      }).catch(console.error);
-    } else {
-      navigator.clipboard.writeText(shareText).then(() => {
-        toast({
-          title: "已複製到剪貼簿",
-          description: "分享內容已複製到剪貼簿",
-        });
-      }).catch(console.error);
-    }
-  };
-
   useEffect(() => {
     // Auto-calculate when all fields are filled and user is logged in
     if (reviewCount && currentRating && targetRating && isLoggedIn) {
@@ -136,7 +114,6 @@ export function RatingCalculator({ isLoggedIn }: RatingCalculatorProps) {
           targetRating={targetRating}
           requiredReviews={requiredReviews}
           onReset={handleReset}
-          onShare={handleShare}
         />
       </div>
     </div>

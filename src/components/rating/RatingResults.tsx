@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { RefreshCw, Share2, Star } from "lucide-react";
+import { RefreshCw, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface RatingResultsProps {
@@ -10,7 +10,6 @@ interface RatingResultsProps {
   targetRating: number | undefined;
   requiredReviews: number | null;
   onReset: () => void;
-  onShare: () => void;
 }
 
 export function RatingResults({
@@ -20,7 +19,6 @@ export function RatingResults({
   targetRating,
   requiredReviews,
   onReset,
-  onShare
 }: RatingResultsProps) {
   return (
     <div 
@@ -60,17 +58,10 @@ export function RatingResults({
       <div className="flex space-x-3 mt-4">
         <Button 
           variant="outline" 
-          className="flex-1" 
+          className="w-full" 
           onClick={onReset}
         >
           <RefreshCw className="h-4 w-4 mr-2" /> 再試一次
-        </Button>
-        
-        <Button 
-          className="flex-1" 
-          onClick={onShare}
-        >
-          <Share2 className="h-4 w-4 mr-2" /> 分享結果
         </Button>
       </div>
     </div>
