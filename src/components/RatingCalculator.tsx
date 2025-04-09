@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RefreshCw, Share2, Star, StarHalf } from "lucide-react";
+import { RefreshCw, Share2, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -33,16 +33,7 @@ export function RatingCalculator({ isLoggedIn }: RatingCalculatorProps) {
       return null;
     }
 
-    const currentTotalPoints = reviewCount * currentRating;
-    
-    // Formula: (targetRating * (reviewCount + x) - currentTotalPoints) / 5 = x
-    // Solving for x: (targetRating * reviewCount + targetRating * x - currentTotalPoints) / 5 = x
-    // targetRating * reviewCount + targetRating * x - currentTotalPoints = 5x
-    // targetRating * reviewCount - currentTotalPoints = 5x - targetRating * x
-    // targetRating * reviewCount - currentTotalPoints = x(5 - targetRating)
-    // x = (targetRating * reviewCount - currentTotalPoints) / (5 - targetRating)
-    
-    const required = Math.ceil((targetRating * reviewCount - currentTotalPoints) / (5 - targetRating));
+    const required = Math.ceil(reviewCount * (targetRating - currentRating) / (5 - targetRating));
     return required > 0 ? required : 0;
   };
 
@@ -148,7 +139,6 @@ export function RatingCalculator({ isLoggedIn }: RatingCalculatorProps) {
           <div className="form-group">
             <Label htmlFor="reviewCount">現有評論數量</Label>
             <div className="number-input-wrapper">
-              <span className="prefix">🔢</span>
               <Input
                 id="reviewCount"
                 type="number"
@@ -165,7 +155,6 @@ export function RatingCalculator({ isLoggedIn }: RatingCalculatorProps) {
           <div className="form-group">
             <Label htmlFor="currentRating">現在平均評分</Label>
             <div className="number-input-wrapper">
-              <span className="prefix">⭐</span>
               <Input
                 id="currentRating"
                 type="number"
@@ -183,7 +172,6 @@ export function RatingCalculator({ isLoggedIn }: RatingCalculatorProps) {
           <div className="form-group">
             <Label htmlFor="targetRating">目標平均評分</Label>
             <div className="number-input-wrapper">
-              <span className="prefix">🎯</span>
               <Input
                 id="targetRating"
                 type="number"
