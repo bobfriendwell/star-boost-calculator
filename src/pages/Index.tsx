@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import LoginDialog from "@/components/LoginDialog";
 import RatingCalculator from "@/components/RatingCalculator";
@@ -15,13 +15,13 @@ const Index = () => {
     localStorage.setItem("isLoggedIn", "true");
   };
 
-  // Check if user is already logged in
-  useState(() => {
+  // Check if user is already logged in - using useEffect instead of useState
+  useEffect(() => {
     const loginStatus = localStorage.getItem("isLoggedIn");
     if (loginStatus === "true") {
       setIsLoggedIn(true);
     }
-  });
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-slate-50">
