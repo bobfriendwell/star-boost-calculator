@@ -1,9 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import LoginDialog from "@/components/LoginDialog";
 import RatingCalculator from "@/components/RatingCalculator";
-import { Star } from "lucide-react";
+import { Star, Coffee } from "lucide-react";
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -11,11 +10,9 @@ const Index = () => {
 
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
-    // Save login state to localStorage to persist across page refreshes
     localStorage.setItem("isLoggedIn", "true");
   };
 
-  // Check if user is already logged in - using useEffect instead of useState
   useEffect(() => {
     const loginStatus = localStorage.getItem("isLoggedIn");
     if (loginStatus === "true") {
@@ -63,6 +60,15 @@ const Index = () => {
         <main className="max-w-xl mx-auto bg-white rounded-xl shadow-lg border border-slate-100 p-6 md:p-8">
           <RatingCalculator isLoggedIn={isLoggedIn} />
         </main>
+
+        <div className="text-center mt-8">
+          <Button 
+            className="bg-[#F97316] text-white hover:bg-[#F97316]/90 transition-colors"
+            onClick={() => window.open('https://api.payuni.com.tw/api/uop/receive_info/2/2/NPPA42639797/HvfduJv37P3n32poZPRb', '_blank')}
+          >
+            <Coffee className="h-4 w-4 mr-2" /> Buy me a coffee
+          </Button>
+        </div>
 
         <footer className="text-center text-sm text-muted-foreground mt-12">
           <p>© 2025 White Rock Hospitality Consulting. All rights reserved.</p>
